@@ -1,0 +1,33 @@
+# Node dependencies (backend & frontend)
+**/node_modules/
+**/dist/
+
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# Environment variables
+**/.env
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Optional: Mac system files
+.AppleDouble
+.LSOverride
+
+# Optional: Vue build output (if configured differently)
+frontend/public/build/
+frontend/public/dist/
+
+# Optional: coverage and test reports
+coverage/
+**/coverage/
+*.lcov
