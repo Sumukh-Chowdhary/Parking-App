@@ -8,7 +8,9 @@ router.post('/register', async (req, res) => {
   const { username, email, password, mobile } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({
+      $or:[{ email },{username}]
+    });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -33,6 +35,10 @@ router.post('/login',async(req,res)=>{
         const existingUser=await User.findOne({email});
         if(!existingUser){
             return res.status(400).json({message:'User does not exist'});
+        }
+
+        if(existingUser.blocked){
+          return res.status(403).json({message:'You are blocked from using this website'})
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
