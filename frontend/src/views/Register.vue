@@ -16,7 +16,35 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import api from '@/api';
 
+  const username=ref('');
+  const password=ref('');
+  const email=ref('');
+  const mobile=ref('');
+  const router=useRouter();
+
+  const handleRegister= async ()=>{
+    try{
+      const response=await api.post('/register',{
+        username: username.value,
+        password: password.value,
+        email: email.value,
+        mobile: mobile.value,
+      });
+      router.push('/login');
+    }catch(err){
+    if (err.response && err.response.data.message) {
+      errorMessage.value = err.response.data.message;
+    } else {
+      errorMessage.value = 'Something went wrong. Please try again.';
+    }
+    showError.value = true;
+    setTimeout(() => showError.value = false, 4000);
+    }
+  }
 </script>
 
 <style scoped>

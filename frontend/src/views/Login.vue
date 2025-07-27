@@ -1,5 +1,8 @@
 <template>
   <div class="login-page">
+    <div v-if="showError" class="floating-alert alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
     <form class="login-form" @submit.prevent="handleLogin">
       <h2>Login to ParkMate</h2>
       <input type="email" placeholder="Email" v-model="email" required />
@@ -10,29 +13,30 @@
         <router-link to="/register">Create one</router-link>
       </p>
     </form>
-    <div v-if="errorMessage" class="error-msg">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import api from '@/api';
 
 const email = ref('');
 const password = ref('');
 const router=useRouter();
-const errorMessage=ref('')
+const errorMessage=ref('');
+const showError=ref(false);
 
 const handleLogin = async () => {
   errorMessage.value='';
+  showError.value = false;
+
   try{
     const response=await api.post('/login',{
         email:email.value,
         password:password.value,
     });
-        const { token, user } = response.data;
+    const { token, user } = response.data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     router.push('/dashboard'); 
@@ -42,14 +46,40 @@ const handleLogin = async () => {
     } else {
       errorMessage.value = 'Something went wrong. Please try again.';
     }
+    showError.value = true;
+    setTimeout(() => showError.value = false, 3000);
   }
 };
 </script>
 
 <style scoped>
-.error-msg {
-  color: red;
-  margin-bottom: 10px;
+.floating-alert {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: #f05658;
+  color: black;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  min-width: 300px;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeInOut 0.3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .login-page {
