@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
-const counterSchema = new mongoose.Schema({
-  model: { type: String, required: true, unique: true },
-  count: { type: Number, default: 0 }
-});
-
 const UserSchema= new mongoose.Schema({
-    id:{ type: Number,unique: true},
     username:{ type: String, required: true, unique: true, },
     email:{ type: String, required: true, unique: true, },
     password:{ type: String, required: true, },
@@ -16,7 +10,6 @@ const UserSchema= new mongoose.Schema({
 });
 
 const ParkingLotSchema= new mongoose.Schema({
-    id: { type:Number, unique:true},
     parking_lot_name:{ type:String, required: true},
     address:{ type: String, required: true},
     pincode:{ type: Number, required: true},
@@ -25,13 +18,11 @@ const ParkingLotSchema= new mongoose.Schema({
 });
 
 const ParkingSpotSchema = new mongoose.Schema({
-  id: { type: Number, unique: true },
   lot_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingLot' },
   status: { type: String, enum: ['V', 'O'], default: 'V' }
 });
 
 const ReservationSchema = new mongoose.Schema({
-  id: { type: Number, unique: true },
   lot_id:{ type:mongoose.Schema.Types.ObjectId, ref: 'ParkingLot'},
   spot_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingSpot' },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -41,7 +32,6 @@ const ReservationSchema = new mongoose.Schema({
 });
 
 const HistorySchema = new mongoose.Schema({
-  id: { type: Number, unique: true },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   reservation_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Reservation' },
   spot_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingSpot' },
@@ -56,31 +46,10 @@ const HistorySchema = new mongoose.Schema({
   status: { type: String, enum: ['Completed', 'Cancelled', 'Overdue'], default: 'Completed' },
 });
 
-function applyAutoIncrement(schema,modelName){
-    schema.pre('save', async function (next) {
-        if (this.isNew) {
-            const counter = await Counter.findOneAndUpdate(
-            { model: modelName },
-            { $inc: { count: 1 } },
-            { new: true, upsert: true }
-        );
-        this.id = counter.count;
-        }
-        next();
-    });
-}
-
 const User = mongoose.model('User', UserSchema);
-const Counter = mongoose.model('Counter', counterSchema);
 const ParkingLot=mongoose.model('ParkingLot',ParkingLotSchema);
-const ParkingSpot=mongoose.model('ParkingSpotSchema',ParkingSpotSchema);
-const Reservation=mongoose.model('Reseravation',ReservationSchema);
+const ParkingSpot=mongoose.model('ParkingSpot',ParkingSpotSchema);
+const Reservation=mongoose.model('Reservation',ReservationSchema);
 const History=mongoose.model('History',HistorySchema);
 
-applyAutoIncrement(UserSchema,'User');
-applyAutoIncrement(ParkingLotSchema,'ParkingLot');
-applyAutoIncrement(ParkingSpotSchema,'ParkingSpot');
-applyAutoIncrement(ReservationSchema,'Reservation');
-applyAutoIncrement(HistorySchema,'History');
-
-module.exports={ User, Counter, ParkingLot, ParkingSpot, Reservation, History };
+module.exports={ User, ParkingLot, ParkingSpot, Reservation, History };

@@ -10,21 +10,48 @@
         <router-link to="/register">Create one</router-link>
       </p>
     </form>
+    <div v-if="errorMessage" class="error-msg">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import api from '@/api';
 
 const email = ref('');
 const password = ref('');
+const router=useRouter();
+const errorMessage=ref('')
 
-const handleLogin = () => {
-  console.log('Logging in:', email.value, password.value);
+const handleLogin = async () => {
+  errorMessage.value='';
+  try{
+    const response=await api.post('/login',{
+        email:email.value,
+        password:password.value,
+    });
+        const { token, user } = response.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    router.push('/dashboard'); 
+  }catch(err){
+    if (err.response && err.response.data.message) {
+      errorMessage.value = err.response.data.message;
+    } else {
+      errorMessage.value = 'Something went wrong. Please try again.';
+    }
+  }
 };
 </script>
 
 <style scoped>
+.error-msg {
+  color: red;
+  margin-bottom: 10px;
+}
+
 .login-page {
   display: flex;
   justify-content: center;
@@ -32,7 +59,7 @@ const handleLogin = () => {
   height: 100vh;
   background-color: #f6f9fc;
   font-family: 'Poppins', sans-serif;
-background: url('@/assets/home-bg.png') no-repeat;
+  background: url('@/assets/home-bg.png') no-repeat;
   background-size: cover;
   background-position: center bottom; 
   background-attachment: fixed;

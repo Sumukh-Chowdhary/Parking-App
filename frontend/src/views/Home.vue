@@ -12,6 +12,8 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+
 </script>
 
 <style scoped>
@@ -54,4 +56,15 @@
   gap: 1rem;
   justify-content: center;
 }
+.welcome-banner {
+  background-color: #b7e4c7; /* light green tone */
+  color: #004225;            /* deep green text */
+  font-weight: 600;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-bottom: 2px solid #004225;
+}
+
 </style>
