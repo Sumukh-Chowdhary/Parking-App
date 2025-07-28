@@ -20,6 +20,8 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/api';
+import { useAuthStore } from '@/stores/auth'
+const auth = useAuthStore()
 
 const email = ref('');
 const password = ref('');
@@ -37,9 +39,8 @@ const handleLogin = async () => {
         password:password.value,
     });
     const { token, user } = response.data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    router.push('/dashboard'); 
+    auth.setUser(user, token);
+    router.push(user.role === 'admin' ? '/admin' : '/user');
   }catch(err){
     if (err.response && err.response.data.message) {
       errorMessage.value = err.response.data.message;

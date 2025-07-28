@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <Navbar></Navbar>
+    <DynamicNavbar></DynamicNavbar>
     <router-view></router-view>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
+import DynamicNavbar from './components/DynamicNavbar.vue'
 import Footer from './components/Footer.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    DynamicNavbar,
     Footer,
   }
 }

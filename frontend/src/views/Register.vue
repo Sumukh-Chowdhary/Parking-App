@@ -1,5 +1,11 @@
 <template>
   <div class="register-container">
+    <div v-if="showError" class="floating-alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+    <div v-if="showSuccess" class="floating-alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
     <form class="register-form" @submit.prevent="handleRegister">
       <h2>Create Your ParkMate Account</h2>
       <input type="text" placeholder="Username" v-model="username" required />
@@ -20,34 +26,87 @@
   import { useRouter } from 'vue-router';
   import api from '@/api';
 
-  const username=ref('');
-  const password=ref('');
-  const email=ref('');
-  const mobile=ref('');
-  const router=useRouter();
+  const username = ref('');
+  const password = ref('');
+  const email = ref('');
+  const mobile = ref('');
+  const router = useRouter();
+  const errorMessage = ref('');
+  const showError = ref(false);
+  const successMessage = ref('');
+  const showSuccess = ref(false);
 
-  const handleRegister= async ()=>{
-    try{
-      const response=await api.post('/register',{
+  const handleRegister = async () => {
+    errorMessage.value = '';
+    showError.value = false;
+    successMessage.value = '';
+    showSuccess.value = false;
+
+    try {
+      const response = await api.post('/register', {
         username: username.value,
         password: password.value,
         email: email.value,
         mobile: mobile.value,
       });
-      router.push('/login');
-    }catch(err){
-    if (err.response && err.response.data.message) {
-      errorMessage.value = err.response.data.message;
-    } else {
-      errorMessage.value = 'Something went wrong. Please try again.';
-    }
-    showError.value = true;
-    setTimeout(() => showError.value = false, 4000);
+      successMessage.value = 'Registration successful! Redirecting to login...';
+      showSuccess.value = true;
+      setTimeout(() => {
+        showSuccess.value = false;
+        router.push('/login');
+      }, 2000);
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        errorMessage.value = err.response.data.message;
+      } else {
+        errorMessage.value = 'Something went wrong. Please try again.';
+      }
+      showError.value = true;
+      setTimeout(() => showError.value = false, 4000);
     }
   }
 </script>
 
 <style scoped>
+.floating-alert {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  padding: 1.2rem 2.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  min-width: 320px;
+  max-width: 550px;
+  text-align: center;
+  animation: slideInFadeIn 0.5s ease-out forwards;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.floating-alert.alert-danger {
+  background-color: rgba(255, 193, 7, 0.8); 
+  color: #343a40;
+}
+
+.floating-alert.alert-success {
+  background-color: rgba(144, 238, 144, 0.8); 
+  color: #1a5a1a;
+}
+
+@keyframes slideInFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 .register-container {
   min-height: calc(100vh - 64px);
   display: flex;
