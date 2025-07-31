@@ -1,30 +1,42 @@
 <template>
   <div id="app">
-    <DynamicNavbar></DynamicNavbar>
-    <router-view></router-view>
-    <Footer></Footer>
+      <DynamicNavbar />
+      <router-view />
+      <Footer />
   </div>
 </template>
 
 <script>
 import DynamicNavbar from './components/DynamicNavbar.vue'
-import Footer from './components/Footer.vue';
+import Footer from './components/Footer.vue'
+import LoadingScreen from './components/LoadingScreen.vue'
 
 export default {
   name: 'App',
   components: {
     DynamicNavbar,
     Footer,
-  }
+    LoadingScreen,
+  },
+  data() {
+    return {
+      showApp: false
+    }
+  },
+  /*mounted() {
+    setTimeout(() => {
+      this.showApp = true
+    }, 5000)
+  }*/
 }
 </script>
 
-
 <style scoped>
 #app {
-  font-family:'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
   padding: 2rem;
 }
+
 html, body, #app {
   width: 100%;
   height: 100%;
@@ -32,7 +44,3 @@ html, body, #app {
   padding: 0;
 }
 </style>
-
-<style global>
-</style>
-
