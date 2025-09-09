@@ -19,7 +19,9 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 const authRoutes = require('./routes/auth');
+const parkingLot= require('./routes/parkingLot')
 app.use('/api', authRoutes);
+app.use('/api/admin/',parkingLot);
 
 app.get('/', (req, res) => {
   res.send('Hello World');
