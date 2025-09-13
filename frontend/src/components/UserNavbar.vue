@@ -4,7 +4,7 @@
     <div class="ml-auto d-flex align-items-center gap-buttons">
       <router-link to="/user" class="nav-link">Home</router-link>
       <router-link to="/user/book" class="nav-link">Book</router-link>
-      <router-link to="/user/my-reservations" class="nav-link">Reservation</router-link>
+      <router-link to="/user/reservation" class="nav-link">Reservation</router-link>
       <router-link to="/user/history" class="nav-link">History</router-link>
       <button @click="logout" class="btn btn-danger">Logout</button>
     </div>

@@ -8,7 +8,8 @@ import manage from "@/views/manage.vue"
 import LotDetails from "@/views/LotDetails.vue"
 import BookParking from '@/views/BookParking.vue'
 import UserLot from '@/views/UserLot.vue'
-import SelectSpot from '@/views/SelectSpot.vue'
+import Reservation from '@/views/Reservation.vue'
+import History from '@/views/History.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -16,9 +17,10 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/admin/manage', component: manage },
   { path: '/admin/lots/:lotId', component: LotDetails },
-  { path: '/user/book', component: UserLot },                       
-  { path: '/user/book/:lotId', component: SelectSpot },             
-  { path: '/user/book/:lotId/:spotId', component: BookParking }     
+  { path: '/user/book', component: UserLot },                                
+  { path: '/user/book/:lotId', component: BookParking },
+  { path: '/user/reservation', component: Reservation },
+  { path :'/user/history', component: History }     
 ]
 
 const router = createRouter({

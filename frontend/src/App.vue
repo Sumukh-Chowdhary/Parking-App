@@ -43,7 +43,6 @@ html, body, #app {
   font-family: 'Poppins', sans-serif;
 }
 
-/* This pushes the footer down if content is short */
 .main-content {
   flex: 1;
 }

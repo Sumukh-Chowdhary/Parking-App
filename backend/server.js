@@ -22,13 +22,11 @@ const authRoutes = require('./routes/auth');
 const parkingLot= require('./routes/parkingLot');
 const parkingSpot= require('./routes/parkingSpot');
 const book = require('./routes/booking');
-const lot= require('./routes/lots');
 
 app.use('/api', authRoutes);
 app.use('/api/admin/lots',parkingLot);
 app.use('/api/admin/lot',parkingSpot);
-app.use('/api/user/reservations', book);
-app.use('/api/user',lot);
+app.use('/api/user', book);
 
 app.get('/', (req, res) => {
   res.send('Hello World');

@@ -32,7 +32,6 @@ const ReservationSchema = new mongoose.Schema({
   parking_cost: Number,
 });
 
-
 const HistorySchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   reservation_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Reservation' },
