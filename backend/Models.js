@@ -23,13 +23,15 @@ const ParkingSpotSchema = new mongoose.Schema({
 });
 
 const ReservationSchema = new mongoose.Schema({
-  lot_id:{ type:mongoose.Schema.Types.ObjectId, ref: 'ParkingLot'},
+  lot_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingLot' },
   spot_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingSpot' },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  parking_timestamp: Date,
-  leaving_timestamp: Date,
+  date: { type: String, required: true },  
+  start_hour: { type: Number, required: true }, 
+  end_hour: { type: Number, required: true }, 
   parking_cost: Number,
 });
+
 
 const HistorySchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

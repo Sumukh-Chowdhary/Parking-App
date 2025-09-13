@@ -1,19 +1,29 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-import Home from '../views/Home.vue';
-import Login from '../views/Login.vue';
-import Register from "@/views/Register.vue";
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Register from "@/views/Register.vue"
+import manage from "@/views/manage.vue"
+import LotDetails from "@/views/LotDetails.vue"
+import BookParking from '@/views/BookParking.vue'
+import UserLot from '@/views/UserLot.vue'
+import SelectSpot from '@/views/SelectSpot.vue'
 
-const routes=[
-    { path:'/', component: Home },
-    { path:'/login', component: Login},
-    { path:'/register', component: Register},
+const routes = [
+  { path: '/', component: Home },
+  { path: '/login', component: Login },
+  { path: '/register', component: Register },
+  { path: '/admin/manage', component: manage },
+  { path: '/admin/lots/:lotId', component: LotDetails },
+  { path: '/user/book', component: UserLot },                       
+  { path: '/user/book/:lotId', component: SelectSpot },             
+  { path: '/user/book/:lotId/:spotId', component: BookParking }     
 ]
 
-const router=createRouter({
-    history:createWebHistory(),
-    routes
+const router = createRouter({
+  history: createWebHistory(),
+  routes
 })
 
 router.beforeEach((to, from, next) => {
@@ -28,5 +38,4 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-
-export default router;
+export default router

@@ -27,4 +27,14 @@ router.post('/addlot',async(req,res)=>{
     }
 });
 
+
+router.get('/getLot', async(req,res)=>{
+    try{
+        const lots= await ParkingLot.find();
+        res.status(200).json({message:"All Lots reterieved", lots})
+    }catch(err){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+});
+
 module.exports=router;

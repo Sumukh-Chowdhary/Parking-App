@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar bg-white shadow-sm px-4">
-    <a class="navbar-brand text-dark font-weight-bold" href="/">ParkMate</a>
+    <p class="navbar-brand text-dark font-weight-bold">ParkMate</p>
     <div class="ml-auto d-flex align-items-center gap-buttons">
-      <router-link to="/admin/dashboard" class="nav-link">Dashboard</router-link>
+      <router-link to="/admin" class="nav-link">Home</router-link>
       <router-link to="/admin/manage" class="nav-link">Manage</router-link>
       <button @click="logout" class="btn btn-danger">Logout</button>
     </div>
@@ -11,10 +11,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
+const auth =useAuthStore();
 
 function logout() {
-  localStorage.clear()
+  auth.logout()
   router.push('/login')
 }
 </script>

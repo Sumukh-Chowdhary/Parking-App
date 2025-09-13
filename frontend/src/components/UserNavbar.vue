@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar bg-white shadow-sm px-4">
-    <a class="navbar-brand text-dark font-weight-bold" href="/">ParkMate</a>
+    <p class="navbar-brand text-dark font-weight-bold">ParkMate</p>
     <div class="ml-auto d-flex align-items-center gap-buttons">
-      <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-      <router-link to="/bookings" class="nav-link">Bookings</router-link>
+      <router-link to="/user" class="nav-link">Home</router-link>
+      <router-link to="/user/book" class="nav-link">Book</router-link>
+      <router-link to="/user/my-reservations" class="nav-link">Reservation</router-link>
+      <router-link to="/user/history" class="nav-link">History</router-link>
       <button @click="logout" class="btn btn-danger">Logout</button>
     </div>
   </nav>
@@ -11,10 +13,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
+const auth = useAuthStore()
 
 function logout() {
-  localStorage.clear()
+  auth.logout()
   router.push('/login')
 }
 </script>

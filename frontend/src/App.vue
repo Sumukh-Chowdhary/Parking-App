@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-      <DynamicNavbar />
+    <DynamicNavbar />
+    <main class="main-content">
       <router-view />
-      <Footer />
+    </main>
+    <Footer />
   </div>
 </template>
 
@@ -23,24 +25,26 @@ export default {
       showApp: false
     }
   },
-  /*mounted() {
-    setTimeout(() => {
-      this.showApp = true
-    }, 5000)
-  }*/
 }
 </script>
 
 <style scoped>
-#app {
-  font-family: 'Poppins', sans-serif;
-  padding: 2rem;
-}
-
 html, body, #app {
-  width: 100%;
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* This pushes the footer down if content is short */
+.main-content {
+  flex: 1;
 }
 </style>
